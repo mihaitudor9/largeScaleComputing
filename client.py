@@ -1,18 +1,22 @@
 import socket
 
+#This client opens up a socket connection with the server, but only if the server program is currently running
 
-host = '10.97.30.195'
-#host = 'OTA-VM-334'
-port = 8080
-  
-s = socket.socket()
-s.connect((host, port))
-  
-message = input('-> ')
-while message != 'q':
-    s.send(message.encode('utf-8'))
-    data = s.recv(1024).decode('utf-8')
-    print('Received from server: ' + data)
-    message = input('==> ')
+host = '127.0.0.1'
+port = 13370
+ClientSocket = socket.socket()
 
-s.close()
+print('Waiting for connection')
+try:
+    ClientSocket.connect((host, port))
+except socket.error as e:
+    print(str(e))
+
+Response = ClientSocket.recv(1024)
+while True:
+    Input = input('Say Something: ')
+    ClientSocket.send(str.encode(Input))
+    Response = ClientSocket.recv(1024)
+    print(Response.decode('utf-8'))
+
+ClientSocket.close()
