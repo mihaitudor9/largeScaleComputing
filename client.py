@@ -7,11 +7,11 @@ def reading(file):
     my_config_file1 = my_config_file1.read()
     object1 = json.loads(my_config_file1)
     return object1
-client1 = reading('/Users/wafaaaljbawi/Desktop/largeScaleComputing/data/config_1.json')
-id = client1['person']['id']
+client1 = reading('data/config_1.json')
+idx = client1['person']['id']
 firstname = client1['person']['name']
 publickey = client1['person']['keys']['public']
-#print("client 1 ID: " + id + " , Name:" + firstname + " , public key is: , " + publickey)
+print("client 1 ID: " + idx + " , Name:" + firstname + " , public key is: , " + publickey)
 
 host =  client1['server']['ip']
 port = int(client1['server']['port'])
@@ -24,12 +24,19 @@ try:
 except socket.error as e:
     print(str(e))
 
-Response = ClientSocket.recv(1024)
+Welcome = ClientSocket.recv(1024)
+print(Welcome.decode('utf-8'))
+
+#register
+ClientSocket.send(str.encode(idx))
+ClientSocket.send(str.encode(firstname))
+Result = ClientSocket.recv(1024)
+print(Result.decode('utf-8'))
+
+#send messages
 while True:
-    Input = input('Say Something: ')
-    ClientSocket.send(str.encode(Input))
-    ClientSocket.send(str.encode(id))
-    ClientSocket.send(str.encode(firstname))
+    message = input('Enter message: ')
+    ClientSocket.send(str.encode(message))
     Response = ClientSocket.recv(1024)
     print(Response.decode('utf-8'))
 
