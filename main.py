@@ -3,35 +3,43 @@ import socket
 import json
 from _thread import *
 
-import cherrypy as cherrypy
 import requests
-import simplejson as simplejson
-
-
-
 
 # a function that handles requests from the individual client by a thread
 #threaded_client() connects to each individual client on the different address given by the server
 def threaded_client(connection):
-    connection.send(str.encode('Welcome to the Server\n'))
+    welcome = 'Welcome to the Server\n'
+    connection.send(str.encode(welcome))
+    
+    #registration
+    try:
+        idx = connection.recv(1024).decode('utf-8')
+        name = connection.recv(1024).decode('utf-8')
+    except:
+        response = 'Registration error: incorrect format'
+        connection.send(str.encode(response))
+        connection.close()
+    
+    if idx == '5856e6cd-0da6-4573-9a04-cbb11f5e68d3' and name == 'KÃ¼ppers, Bastian':
+        response = 'Registration successful'
+        connection.send(str.encode(response))
+    else:
+        response = 'Registration error: incorrect credentials'
+        connection.send(str.encode(response))
+        connection.close()
+        
     while True:
-        # using recv() function to get data from each client independently and then we simply return the reply to the
-        # particular client with the same message with string concatenate “Server Says” in the beginning.
-        data = connection.recv(1024)
-        reply = 'Server Says: ' + data.decode('utf-8')
-        data = data[0]
-        print(" Received message is '{}'".format(data))
-        if not data:
-            break
-        connection.sendall(str.encode(reply))
+        message = connection.recv(1024).decode('utf-8')
+        print('Received message:' + message)
+        reply = ('Thank you for sending us a message! If we could, we would pass it on to another user!')
+        connection.send(str.encode(reply))
+        
 
     connection.close()
 
 def server():
     ServerSocket = socket.socket()
     # declare host and port on which we need to communicate with clients
-   # host = socket.gethostname()
-   # ip = socket.gethostbyname(host)
     ip = "127.0.0.1"
     print(ip)
     port = 13370
@@ -65,13 +73,4 @@ def server():
 #def Registration(id, firstname,  publickey, s,client1):
 
 if __name__ == '__main__':
-    #obj1 = reading('/Users/wafaaaljbawi/Desktop/largeScaleComputing/data/config_1.json')
-  #  ip = obj1['server']['ip']
-  #  print('Retrieved IP address from JSON: ')
-   # print(ip)
-
-   # port = obj1['server']['port']
-    print('Using port: ')
-  #  print(port)
-    print('-------------')
     server()
