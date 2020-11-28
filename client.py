@@ -22,6 +22,21 @@ print("-----------------")
 host = client1['server']['ip']
 port = int(client1['server']['port'])
 
+def encrypt(message, key):
+    digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
+    digest.update(key)
+    key_ready = Fernet(base64.urlsafe_b64encode(digest.finalize()))
+    
+    message = message.encode('utf-8')
+    return key_ready.encrypt(message)
+
+def decrypt(message):
+    digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
+    digest.update(publicKey)
+    key_ready = Fernet(base64.urlsafe_b64encode(digest.finalize()))
+    
+    return key_ready.decrypt(message)
+
 ClientSocket = socket.socket()
 
 print('Waiting for connection')
@@ -40,10 +55,21 @@ Result = ClientSocket.recv(1024)
 print(Result.decode('utf-8'))
 
 # send messages
+for action in client_data['actions']:
+    substr = action.split('[')
+    adres = substr[1].split(']')[0]
+    #get public key
+    ClientSocket.send(str.encode(adres))
+    key = ClientSocket.recv(1024)
+    #encrypt message
+    message = substr[2].split(']')[0]
+    encrypted = encrypt(message, key)
+    #send message
+    ClientSocket.send(str.encode(adres))
+    
+#listen for incoming messages
 while True:
-    message = input('Enter message: ')
-    ClientSocket.send(str.encode(message))
-    Response = ClientSocket.recv(1024)
-    print(Response.decode('utf-8'))
+    incoming = ClientSocket.recv(1024)
+    print(decrypt(incoming))
 
 ClientSocket.close()
