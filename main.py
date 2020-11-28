@@ -20,6 +20,7 @@ def threaded_client(connection):
     global idx, name
     welcome = 'Welcome to the Server\n'
     connection.send(str.encode(welcome))
+    registered = False
 
     # registration
     try:
@@ -34,7 +35,10 @@ def threaded_client(connection):
         if idx == user['user_ID'] and name == user['user_name']:
             response = 'Registration successful'
             connection.send(str.encode(response))
-    else:
+            registered = True
+            break
+            
+    if not registered:
         response = 'Registration error: incorrect credentials'
         connection.send(str.encode(response))
         connection.close()
