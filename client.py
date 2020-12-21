@@ -1,8 +1,13 @@
+import base64
 import json
 import socket
 
 
 # This client opens up a socket connection with the server, but only if the server program is currently running
+from fernet import Fernet
+from pip._internal.utils import hashes
+
+
 def reading(file):
     my_config_file1 = open(file)
     my_config_file1 = my_config_file1.read()
@@ -55,18 +60,29 @@ Result = ClientSocket.recv(1024)
 print(Result.decode('utf-8'))
 
 # send messages
-for action in client_data['actions']:
-    substr = action.split('[')
-    adres = substr[1].split(']')[0]
-    #get public key
-    ClientSocket.send(str.encode(adres))
-    key = ClientSocket.recv(1024)
-    #encrypt message
-    message = substr[2].split(']')[0]
-    encrypted = encrypt(message, key)
-    #send message
-    ClientSocket.send(str.encode(adres))
-    
+def sendMessages(client_data):
+    for action in client_data['actions']:
+        substr = action.split('[')
+        adres = substr[1].split(']')[0]
+        #get public key
+        ClientSocket.send(str.encode(adres))
+        key = ClientSocket.recv(1024)
+        #encrypt message
+        message = substr[2].split(']')[0]
+        encrypted = encrypt(message, key)
+        #send message
+        ClientSocket.send(str.encode(adres))
+
+try:
+    sendMessages(client_data)
+    print('Message sent.')
+except socket.error as e:
+    # print('Error: ' + str(e))
+    response = 'Message not sent. Do you want to retry again?'
+    ans = input(response)
+    if ans == 'yes':
+        sendMessages(client_data)
+
 #listen for incoming messages
 while True:
     incoming = ClientSocket.recv(1024)
