@@ -76,18 +76,23 @@ def sendMessages(client_data):
         ClientSocket.send(str.encode(adres))
 
 try:
-    sendMessages(client_data)
-    print('Message sent.')
+    sendMessages(client1)
+    print('Messages sent.')
 except socket.error as e:
-    # print('Error: ' + str(e))
-    response = 'Message not sent. Do you want to retry again?'
+    print('Error: ' + str(e))
+    response = 'Messages not sent. Do you want to retry again?'
     ans = input(response)
     if ans == 'yes':
-        sendMessages(client_data)
+        sendMessages(client1)
 
-#listen for incoming messages
+# listen for incoming messages
 while True:
-    incoming = ClientSocket.recv(1024)
-    print(decrypt(incoming))
+    try:
+        incoming = ClientSocket.recv(1024).decode('utf-8')
+        # print(decrypt(incoming))
+        print('you got a message:' + incoming)
+    except:
+        print('no incoming messages')
+
 
 ClientSocket.close()

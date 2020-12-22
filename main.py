@@ -44,10 +44,15 @@ def threaded_client(connection):
         connection.close()
 
     while True:
-        message = connection.recv(1024).decode('utf-8')
-        print('Received message:' + message)
-        reply = 'Thank you for sending us a message! If we could, we would pass it on to another user!'
-        connection.send(str.encode(reply))
+        try:
+            message = connection.recv(1024).decode('utf-8')
+            print('Received message:' + message)
+            reply = 'Thank you for sending us a message! If we could, we would pass it on to another user!'
+            connection.send(str.encode(reply))
+        except:
+            print('no more messages')
+            break
+
 
     connection.close()
 
@@ -65,7 +70,7 @@ def server():
         ServerSocket.bind((ip, port))
     except socket.error as e:
         print(str(e))
-    print('Waitiing for a Connection..')
+    print('Waiting for a Connection..')
     ServerSocket.listen(5)
     # use a while loop to make it run Server endlessly until we manually stop the Server
     while True:
