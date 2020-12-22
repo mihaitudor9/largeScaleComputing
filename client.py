@@ -4,8 +4,10 @@ import socket
 
 
 # This client opens up a socket connection with the server, but only if the server program is currently running
-from fernet import Fernet
-from pip._internal.utils import hashes
+import cryptography
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
 
 
 def reading(file):
