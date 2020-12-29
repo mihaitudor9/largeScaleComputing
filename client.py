@@ -48,6 +48,7 @@ def decrypt(message):
     
     return key_ready.decrypt(message)
 
+
 ClientSocket = socket.socket()
 
 print('Waiting for connection')
@@ -71,36 +72,36 @@ print(Result.decode('utf-8'))
 # send messages
 def sendMessages(client_data):
     for action in client_data['actions']:
-    substr = action.split('[')
-    adres = substr[1].split(']')[0]
-    #get public key
-    ClientSocket.send(str.encode(adres))
+        substr = action.split('[')
+        adres = substr[1].split(']')[0]
+        #get public key
+        ClientSocket.send(str.encode(adres))
     
-    key = ClientSocket.recv(1024)
-    if key == 'not found':
-        raise Exception('recipient not found')
-    else:
-        #encrypt message
-        message = substr[2].split(']')[0]
-        print('sending', message, 'to', adres)
-        #log message
-        log['sending'].append({'from': firstName, 'to': adres, 'message': str(message)})
-        with open('data/client_log.json', 'w') as outfile:
-            json.dump(log, outfile)
+        key = ClientSocket.recv(1024)
+        if key == 'not found':
+            raise Exception('recipient not found')
+        else:
+            #encrypt message
+            message = substr[2].split(']')[0]
+            print('sending', message, 'to', adres)
+            #log message
+            log['sending'].append({'from': firstName, 'to': adres, 'message': str(message)})
+            with open('data/client_log.json', 'w') as outfile:
+                json.dump(log, outfile)
             
-        encrypted = encrypt(message, key)
-        #send message
-        ClientSocket.send(str.encode(str(encrypted))
+            encrypted = encrypt(message, key)
+            #send message
+            ClientSocket.send(str.encode(str(encrypted)))
 
 try:
-    sendMessages(client1)
+    sendMessages(client_data)
     print('Messages sent.')
 except socket.error as e:
     print('Error: ' + str(e))
     response = 'Messages not sent. Do you want to retry again?'
     ans = input(response)
     if ans == 'yes':
-        sendMessages(client1)
+        sendMessages(client_data)
 
 # listen for incoming messages
 while True:

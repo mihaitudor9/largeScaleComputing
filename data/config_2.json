@@ -17,6 +17,11 @@
 		"ip": "127.0.0.1",
 		"port": "13371"
 	},
+	"bank": {
+		"name": "ING",
+		"accountNumber": "6203923",
+		"balance": 3000
+	},
 	"actions": [
 		"SEND [KÜPPERS, BASTIAN] [HELLO BASTIAN]",
 		"SEND [5856e6cd-0da6-4573-9a04-cbb11f5e68d3] [HELLO BASTIAN 2]"
