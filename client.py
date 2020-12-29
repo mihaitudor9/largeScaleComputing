@@ -15,7 +15,7 @@ def reading(file):
     return object1
 
 
-client_data = reading('data/config_1.json')
+client_data = reading('data/bank_config_1.json')
 try:
     log = reading('data/client_log.json')
 except:
@@ -24,30 +24,16 @@ except:
     log['receiving'] = []
 idx = client_data['person']['id']
 firstName = client_data['person']['name']
-publicKey = client_data['person']['keys']['public']
+accountNumber = client_data['account']['number']
+balance = client_data['account']['saves']
 print("Client 1 ID: ", idx)
 print("Name:", firstName)
-print("Public key:", publicKey)
+print("Account number:", accountNumber)
+print("Current balance: ", balance)
 print("-----------------")
 
 host = client_data['server']['ip']
 port = int(client_data['server']['port'])
-
-def encrypt(message, key):
-    digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
-    digest.update(key)
-    key_ready = Fernet(base64.urlsafe_b64encode(digest.finalize()))
-    
-    message = message.encode('utf-8')
-    return key_ready.encrypt(message)
-
-def decrypt(message):
-    digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
-    digest.update(publicKey.encode())
-    key_ready = Fernet(base64.urlsafe_b64encode(digest.finalize()))
-    
-    return key_ready.decrypt(message)
-
 
 ClientSocket = socket.socket()
 
@@ -63,7 +49,8 @@ print(Welcome.decode('utf-8'))
 # register
 ClientSocket.send(str.encode(idx))
 ClientSocket.send(str.encode(firstName))
-ClientSocket.send(str.encode(publicKey))
+ClientSocket.send(str.encode(accountNumber))
+ClientSocket.send(str.encode(balance))
 number = str(len(client_data['actions']))
 ClientSocket.send(str.encode(number))
 Result = ClientSocket.recv(1024)
@@ -104,15 +91,6 @@ except socket.error as e:
         sendMessages(client_data)
 
 # listen for incoming messages
-while True:
-    try:
-        incoming = decrypt(ClientSocket.recv(1024))
-        print(incoming)
-        #log message
-        log['receiving'].append({'by': firstName, 'message': str(incoming)})
-        with open('data/client_log.json', 'w') as outfile:
-            json.dump(log, outfile)
-    except:
-        print('no incoming messages')
+
 
 ClientSocket.close()
