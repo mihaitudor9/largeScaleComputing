@@ -17,9 +17,13 @@
 		"ip": "127.0.0.1",
 		"port": "13370"
 	},
-  "account":
-  {
-    "number": "1234",
-    "savings": "1000"
-  }
+    "account":
+    {
+        "number": "1234",
+        "savings": "1000"
+    },
+    "actions": [
+		"SEND [1001] ADD [1234] [1235] [100]",
+        "SEND [1001] SUB [1234][2]"
+	]
 }
