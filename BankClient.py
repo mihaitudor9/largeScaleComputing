@@ -18,11 +18,11 @@ def reading(file):
 
 client_data = reading('data/bank_config_1')
 try:
-    log = reading('data/client_log.json')
+    log = reading('data/bankclient_log.json')
 except:
     log = {}
-    log['sending'] = []
-    log['receiving'] = []
+    log['money transfer'] = []
+    log['money disbursal'] = []
 idx = client_data['person']['id']
 firstName = client_data['person']['name']
 accountNumber = client_data['account']['number']
@@ -62,12 +62,11 @@ def bankingActions(client_data):
     for actions in client_data['actions']:
         substr2 = actions.split(']')
         action = substr2[1].split('[')[0]
+        ClientSocket.send(str.encode(action))
 
         substr = actions.split('[')
         address = substr[1].split(']')[0]
         fromAccount = substr[2].split(']')[0]
-
-        ClientSocket.send(str.encode(action))
         ClientSocket.send(str.encode(address))
         ClientSocket.send(str.encode(fromAccount))
 
@@ -80,6 +79,10 @@ def bankingActions(client_data):
                 ClientSocket.send(str.encode(toAccount))
                 ClientSocket.send(str.encode(amount))
                 print('sending', amount, 'from account number', fromAccount, 'to account number', toAccount)
+                # log message
+                log['money transfer'].append({'from': fromAccount, 'to': toAccount, 'amount': amount})
+                with open('data/bankclient_log.json', 'w') as outfile:
+                    json.dump(log, outfile)
         elif action == ' SUB ':  # disbursal of money
             amount = substr[3].split(']')[0]
             if int(amount) > int(balance):
@@ -87,6 +90,10 @@ def bankingActions(client_data):
             else:
                 ClientSocket.send(str.encode(amount))
                 print('disbursal of', amount, 'from account number', fromAccount)
+                # log message
+                log['money disbursal'].append({'from': fromAccount, 'amount': amount})
+                with open('data/bankclient_log.json', 'w') as outfile:
+                    json.dump(log, outfile)
         else:
             print('no such action')
 
