@@ -1,0 +1,34 @@
+{
+  "bank_clients": [
+    {
+      "name": "Harry Truman",
+      "id" : "1001",
+      "acc_number" : "12345671",
+      "balance": "1000"
+    },
+    {
+      "name": "Margaret Truman",
+      "id" : "1002",
+      "acc_number" : "12345672",
+      "balance": "500"
+    },
+    {
+      "name": "Riscoe Patterson",
+      "id" : "1003",
+      "acc_number" : "12345673",
+      "balance": "800"
+    },
+    {
+      "name": "Jamees Gilday",
+      "id" : "1004",
+      "acc_number" : "12345674",
+      "balance": "950"
+    },
+    {
+      "name": "Elihu Hayes",
+      "id" : "2000",
+      "acc_number" : "12345675",
+      "balance": "1250"
+    }
+  ]
+}

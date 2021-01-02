@@ -1,0 +1,18 @@
+{
+	"person": {
+		"id": "0001",
+		"name": "JOE DOE",
+		"account": "1234"
+		
+	},
+	"server":
+	{
+		"ip": "127.0.0.1",
+		"port": "13370"
+	},
+	"actions": [
+		"SEND [0001] ADD [MARY HOPKINS] [100]",
+        	"SEND [0001] ADD [4321] [200]",
+        	"SEND [0001] SUB [350]"
+		]
+}
