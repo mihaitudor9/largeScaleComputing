@@ -7,7 +7,7 @@ def reading(file):
     my_config_file1 = my_config_file1.read()
     object1 = json.loads(my_config_file1)
     return object1
-    
+
 client_data = reading('data/bank_customer_1.json')
 try:
     log = reading('data/bankclient_log.json')
@@ -52,3 +52,9 @@ for action in client_data['actions']:
     log['transactions'].append({'transaction': action})
     with open('data/bankclient_log.json', 'w') as outfile:
         json.dump(log, outfile)
+    time.sleep(1)
+        
+# listen for transaction status
+while True:
+    status = ClientSocket.recv(1024)
+    print(status.decode('utf-8'))
