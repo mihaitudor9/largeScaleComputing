@@ -1,0 +1,25 @@
+{
+	"login": {
+		"id": "9991",
+		"name": "BIG BANK"
+		
+	},
+	"server":
+	{
+		"ip": "127.0.0.1",
+		"port": "13371"
+	},
+	"accounts":
+	{
+		"0001":{
+		"number": "1234",
+		"holder": "JOE DOE",
+		"balance": "1000"
+		}
+		"0002":{
+		"number": "4321",
+		"holder": "MARY HOPKINS",
+		"balance": "200"
+		}
+	}
+}
