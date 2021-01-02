@@ -81,7 +81,13 @@
           "roles" : [
             "Economist",
             "Customer"
+          ],
+           {
+          "id" : "9999",
+          "roles" : [
+            "Customer"
           ]
+        }
         }
       ]
     }
