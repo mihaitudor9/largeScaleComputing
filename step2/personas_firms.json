@@ -1,0 +1,95 @@
+{
+
+  "organizations" : [
+
+    {
+      "name" : "ING Bank",
+      "roles" : [
+        "Economist",
+        "Clerk",
+        "Computer Engineer",
+        "Data Analyst"
+      ],
+      "employees" : [
+        {
+          "id" : "1000",
+          "roles" : [
+            "Clerk",
+            "Customer"
+          ]
+        },
+         {
+          "id" : "1001",
+          "roles" : [
+            "Computer Engineer",
+            "Customer"
+          ]
+        },
+         {
+          "id" : "1002",
+          "roles" : [
+            "Data Analyst",
+            "Customer"
+          ]
+        }
+      ]
+    },
+
+     {
+      "name" : "ABN AMRO BANK",
+      "roles" : [
+        "Economist",
+        "Clerk",
+        "Computer Engineer",
+        "Data Analyst"
+      ],
+      "employees" : [
+        {
+          "id" : "2000",
+          "roles" : [
+            "Economist",
+            "Customer"
+          ]
+        },
+        {
+          "id" : "2001",
+          "roles" : [
+            "Clerk",
+            "Customer"
+            ]
+        },
+        {
+          "id" : "2002",
+          "roles" : [
+            "Data Analyst",
+            "Customer"
+            ]
+        }
+      ]
+    },
+    {
+      "name" : "De Volksbank",
+      "roles" : [
+        "Economist",
+        "Clerk",
+        "Computer Engineer",
+        "Data Analyst"
+      ],
+      "employees" : [
+        {
+          "id" : "3000",
+          "roles" : [
+            "Economist",
+            "Customer"
+          ]
+        },
+         {
+          "id" : "9999",
+          "roles" : [
+            "Customer"
+          ]
+        }
+      ]
+    }
+  ]
+}
