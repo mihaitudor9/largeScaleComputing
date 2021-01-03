@@ -18,9 +18,9 @@ def reading(file):
 
 
 # store client data (for a different client choose a different file, i.e. config_2.json)
-client_data = reading('../data/config_1.json')
+client_data = reading('data/config_1.json')
 try:
-    log = reading('../data/client_log.json')  # log file printing client's messages
+    log = reading('..data/client_log.json')  # log file printing client's messages
 except:
     log = {}
     log['sending'] = []  # sent messages
@@ -98,7 +98,7 @@ def sendMessages(client_data):
             print('sending', message, 'to', address)
             # save the message in the log file
             log['sending'].append({'from': firstName, 'to': address, 'message': str(message)})
-            with open('../data/client_log.json', 'w') as outfile:
+            with open('data/client_log.json', 'w') as outfile:
                 json.dump(log, outfile)
 
             # encrypt message and send the message

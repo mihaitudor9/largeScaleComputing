@@ -17,7 +17,7 @@ while True:
             user = {'index': credentialsIndex, 'user_name': name, 'user_ID': ID}
 
             # save user's credentials in the log file
-            with open('../data/credentials.json', 'w') as outfile:
+            with open('data/credentials.json', 'w') as outfile:
                 outfile.write(
                     '[' +
                     '\n' + json.dumps(user) +

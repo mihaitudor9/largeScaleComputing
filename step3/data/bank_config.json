@@ -11,12 +11,12 @@
         {
             "number": "1234",
             "holder": "JOE DOE",
-            "balance": 1000.0
+            "balance": 100.0
         },
         {
             "number": "4321",
             "holder": "MARY HOPKINS",
-            "balance": 500.0
+            "balance": 1000.0
         }
     ]
 }

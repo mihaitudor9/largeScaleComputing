@@ -13,10 +13,10 @@ def reading(file):
     return object1
 
 
-credentials = reading('../data/credentials.json')  # load the credentials file
+credentials = reading('data/credentials.json')  # load the credentials file
 messages = []  # array storing client's messages
 try:
-    log = reading('../data/server_log.json')  # log file printing all messages and their senders/receivers
+    log = reading('data/server_log.json')  # log file printing all messages and their senders/receivers
 except:
     log = {}
     log['messages'] = []
@@ -86,7 +86,7 @@ def threaded_client(connection):
             messages.append([address, message])
             # add the message to logfile
             log['messages'].append({'from': name, 'to': address, 'message': str(message)})
-            with open('../data/server_log.json', 'w') as outfile:
+            with open('data/server_log.json', 'w') as outfile:
                 json.dump(log, outfile)
             print('Received message:', message, 'to', address)  # print the message
         
